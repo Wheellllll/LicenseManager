@@ -9,16 +9,18 @@ public class License {
      * The default time unit for limit value of throughput, it can be change by method <code>setDefaultTimeUnit</code>.
      */
     private static TimeUnit defaultTimeUnit = TimeUnit.SECONDS;
+    // for capacity
     private boolean capacityOn;
     private int capacityLimit;
     private int currentCapacity;
     private int previousCapacity;
+    // for throughput
     private boolean throughputOn;
     private int throughputLimit;
     private TimeUnit timeUnit;
     private int currentThroughput;
     private int previousThroughput;
-    private long lastTime;
+    private long lastTime; // the time last received a message
 
     public License() {
         capacityOn = false;
@@ -133,14 +135,11 @@ public class License {
         return capacityOn;
     }
 
-    public void setCapacityOn(boolean capacityOn) {
-        this.capacityOn = capacityOn;
-    }
-
     public int getCapacityLimit() {
         return capacityLimit;
     }
 
+    // other setter and getter
     public void setCapacityLimit(int capacityLimit) {
         this.capacityLimit = capacityLimit;
     }
@@ -149,24 +148,12 @@ public class License {
         return currentCapacity;
     }
 
-    public void setCurrentCapacity(int currentCapacity) {
-        this.currentCapacity = currentCapacity;
-    }
-
     public int getPreviousCapacity() {
         return previousCapacity;
     }
 
-    public void setPreviousCapacity(int previousCapacity) {
-        this.previousCapacity = previousCapacity;
-    }
-
     public boolean isThroughputOn() {
         return throughputOn;
-    }
-
-    public void setThroughputOn(boolean throughputOn) {
-        this.throughputOn = throughputOn;
     }
 
     public int getThroughputLimit() {
@@ -181,32 +168,16 @@ public class License {
         return timeUnit;
     }
 
-    public void setTimeUnit(TimeUnit timeUnit) {
-        this.timeUnit = timeUnit;
-    }
-
     public int getCurrentThroughput() {
         return currentThroughput;
-    }
-
-    public void setCurrentThroughput(int currentThroughput) {
-        this.currentThroughput = currentThroughput;
     }
 
     public int getPreviousThroughput() {
         return previousThroughput;
     }
 
-    public void setPreviousThroughput(int previousThroughput) {
-        this.previousThroughput = previousThroughput;
-    }
-
     public long getLastTime() {
         return lastTime;
-    }
-
-    public void setLastTime(long lastTime) {
-        this.lastTime = lastTime;
     }
 
     /**
@@ -244,7 +215,6 @@ public class License {
         enableThroughput(throughputLimit, maintain, defaultTimeUnit);
     }
 
-
     /**
      * Disable the capacity function.
      */
@@ -272,7 +242,7 @@ public class License {
      */
     public Availability use() {
         boolean capacityAvailability = false, throughputAvailability = false;
-        if (capacityOn && throughputOn) {
+        if (isCapacityOn() && isThroughputOn()) {
             capacityAvailability = increaseCapacity();
             throughputAvailability = increaseThroughput();
             if (capacityAvailability && throughputAvailability)
@@ -283,13 +253,13 @@ public class License {
                 return Availability.CAPACITYEXCEEDED;
             else
                 return Availability.BOTHEXCEEDED;
-        } else if (capacityOn) {
+        } else if (isCapacityOn()) {
             capacityAvailability = increaseCapacity();
             if (capacityAvailability)
                 return Availability.AVAILABLE;
             else
                 return Availability.CAPACITYEXCEEDED;
-        } else if (throughputOn) {
+        } else if (isThroughputOn()) {
             throughputAvailability = increaseThroughput();
             if (throughputAvailability)
                 return Availability.AVAILABLE;
