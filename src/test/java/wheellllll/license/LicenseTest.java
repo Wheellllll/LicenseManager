@@ -84,7 +84,7 @@ public class LicenseTest {
         }
         assertEquals(License.Availability.THROUGHPUTEXCEEDED, license.use());
         license.enableCapacity(0, false);
-        license.setThroughputLimit(0);
+        license.enableThroughput(0, false);
         assertEquals(License.Availability.BOTHEXCEEDED, license.use());
     }
 
