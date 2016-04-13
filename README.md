@@ -52,7 +52,7 @@ License license = new License(License.LicenseType.THROUGHPUT, throughputLimit); 
 License license = new License(License.LicenseType.BOTH, capacityLimit, throughputLimit); //同时使用两种功能，时间单位为默认值秒
  ```
 
-*枚举值 LicenseType，TimeUnit，Availability的定义请见文档*
+*枚举值 LicenseType，TimeUnit，Availability的定义请见[文档](http://wheellllll.github.io/LicenseManager/)*
 
 #### 从已有实例启用功能或关闭功能
 
