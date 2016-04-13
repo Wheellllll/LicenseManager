@@ -119,6 +119,7 @@ public class License {
 
     /**
      * Get the default time unit.
+     * @return The default time unit value.
      */
     public static TimeUnit getDefaultTimeUnit() {
         return defaultTimeUnit;
@@ -126,6 +127,7 @@ public class License {
 
     /**
      * Set the default time unit.
+     * @param defaultTimeUnit The target time unit value.
      */
     public static void setDefaultTimeUnit(TimeUnit defaultTimeUnit) {
         License.defaultTimeUnit = defaultTimeUnit;
@@ -210,6 +212,9 @@ public class License {
 
     /**
      * Brief form to enable the throughput function.
+     * @param throughputLimit Limit value for throughput
+     * @param maintain        This value reflect whether continue from the old place. If set as true, the initial
+     *                        throughput value will be set to previous throughput value, otherwise it will be set to 0
      */
     public void enableThroughput(int throughputLimit, boolean maintain) {
         enableThroughput(throughputLimit, maintain, defaultTimeUnit);
@@ -319,7 +324,9 @@ public class License {
     }
 
     /**
-     * Enum for license functional type.
+     * Enum for license functional type. <code>CAPACITY</code> means to use the capacity
+     * function, <code>THROUGHPUT</code> means to use the throughput function, <code>BOTH</code>
+     * means to use two functions at the same time.
      */
     public enum LicenseType {
         CAPACITY, THROUGHPUT, BOTH
